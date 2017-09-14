@@ -55,6 +55,7 @@ db.runCommand(
       {
           key: {
             from: 1,
+            subject: 1,
             mail: 1
           },
           name: "Inbox",
