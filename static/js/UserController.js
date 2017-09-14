@@ -17,6 +17,7 @@
 
 	$scope.sendMail = function(to,subject,mail){
 		var data = {
+			    from: $routeParams.username,
 			    to: to,
 			    subject: subject,
 			    mail: mail	
@@ -25,9 +26,10 @@
 			    headers : {
 				"Content-Type": "application/json; charset = utf-8;"
 			    }
-		
+		}
 		$http.post("/send_mail",JSON.stringify(data), config)
 			.then(function(data) {
+				console.log(data.data.status);
 			}, function(data){
 				console.log("error :" + data);
 			});		

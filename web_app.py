@@ -50,12 +50,23 @@ def login():
 		return jsonify(status='WRONG',message='Password incorrect')
 
 
-@app.route("send_mail",methods=['POST'])
-def send_mail():
+@app.route("/send_mail",methods=['POST'])
+def handle_mail():
 	result = request.get_json()
+	from_username = result['from']
 	to = result['to']
-	
+	doesExist = db.userData.find_one({"email":to})
+	sender = db.userData.find_one({"username":from_username})
+	from_email = sender['email']
+
+	if not doesExist:
+		return jsonify(status='NOT_EXISTS', message='Email is not registered')
+	subject = result['subject']
+	mail = result['mail']
+	db.userData.update_one({"email":from_email},{'$push' : { 'Outbox': {'to':to, 'subject':subject, 'mail':mail }}})
+	db.userData.update_one({"email":to},{'$push' : { 'Inbox': {'from':from_email, 'subject':subject, 'mail':mail }}})
+	return jsonify(status='OK', message='Mail is sent successfully.')
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 8149))
+    port = int(os.environ.get('PORT', 8156))
     app.run(host='0.0.0.0', port=port)

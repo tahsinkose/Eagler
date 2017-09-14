@@ -24,8 +24,7 @@
 	    		};
 		};
 		var encrypted_data = sha3()
-		console.log("hash: " + encrypted_data.passwordHash.toString(CryptoJS.Base64))
-		console.log("salt: " + encrypted_data.salt.toString())
+
 		var data = {
 		            hash: encrypted_data.passwordHash.toString(CryptoJS.Base64),
 			    salt: encrypted_data.salt.toString(),
