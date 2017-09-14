@@ -61,6 +61,15 @@ db.runCommand(
           name: "Inbox",
           unique: false
       },
+      {
+          key: {
+            to: 1,
+            subject: 1,
+            mail: 1
+          },
+          name: "Outbox",
+          unique: false
+      },
    ]
 })
 ```
