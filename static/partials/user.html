@@ -1,0 +1,40 @@
+<div>
+  <section class="width">
+    <aside id="sidebar" class="column-left">
+
+      <nav id="mainnav">
+        <ul>
+          <div class="horde-new">
+            <span class="horde-new-link">
+		<a id="composelink" class="icon" ng-click="newmail()">New Mail</a>
+	    </span>
+          </div>
+          <li><a href="inbox.html">Inbox</a></li>
+          <li><a href="outbox.html">Outbox</a></li>
+	  <li><a href="folder.html">Folder Actions</a></li>
+        </ul>
+      </nav>
+      <div id="horde-slideleft" class="horde-splitbar-vert" style="left: 200px; height: 350px;">
+      </div>
+    </aside>
+    <div id="horde-page" style="left: 187px;">
+      <div class="logout-button">
+	<a title="Logout" ng-click="logout()">Logout</a>
+      </div>
+      <div class="horde-buttonbar">
+    	<ul class="rightFloat">
+         <li class="horde-nobutton">
+           <a id="button_other" title="Other">Other</a><span class="horde-popdown" id="anonymous_element_4"></span></li>
+         <li class="horde-nobutton" id="filter">
+           <a id="button_filter" title="Filter">Filter</a><span class="horde-popdown" id="anonymous_element_1"></span></li>
+       </ul>
+       <ul>
+         <li class="horde-icon">
+           <span class="dimpactionRefresh"></span><a id="checkmaillink" title="Refresh">Refresh</a></li>
+      </ul>
+     </div>
+
+     <div ng-show="openNewmail" ng-include="'static/partials/mail.html'"></div>
+   </div>
+  </section>
+</div>

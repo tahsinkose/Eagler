@@ -1,0 +1,84 @@
+<div class="horde-buttonbar">
+      <div class="iconImg headercloseimg closeImg" id="compose_close" title="Close"></div>
+         <ul>
+           <li class="horde-icon">
+             <a id="send_button" class="dimpactionForward" title="Send" ng-click="sendMail(to,subject,mail)">Send</a></li>
+           <li class="horde-icon">
+             <a id="draft_button" class="dimpactionDrafts" title="Save as Draft">Save as Draft</a></li>
+         </ul>
+     </div>
+     <div id="writemsg">
+       <div class="msgwrite">
+  	 <div class="dimpOptions">
+		<div style="">
+		     <label style="font-weight:300;">
+		      <input class="checkbox" id="save_sent_mail" name="save_sent_mail" type="checkbox" value="1">Save to 				<span id="sent_mail_label" title="Sent">Sent</span>
+		     </label>
+		     	<span class="iconImg horde-popdown" id="save_sent_mail_load"></span>
+		     <input id="save_sent_mail_mbox" name="save_sent_mail_mbox" type="hidden" value="c2VudC1tYWls">    
+		</div>
+	 </div>
+	 <table>
+	     <tbody>
+	     <tr id="sendto">
+               <td class="label">
+                 <span class="composeAddrbook">To:</span>
+               </td>
+               <td>
+      	         <span id="to_loading_img" class="loadingImg" style="display:none"></span>
+      	           <div class="hordeACBox impACBox"><ul class="hordeACList impACList"><li>
+			<input autocomplete="off" class="hordeACTrigger impACTrigger" style="width: 80px;color: black;font-size: 90%;" ng-model="to"></li></ul>
+	           </div>     
+	       </td>
+             </tr>
+             <tr id="sendcc" style="display:none">
+     	       <td class="label">
+      		 <span class="composeAddrbook">Copy:</span>
+     	       </td>
+             </tr>
+             <tr id="sendbcc" style="display:none">
+               <td class="label">
+      		<span class="composeAddrbook">Secret Copy:</span>
+     	      </td>
+    	     </tr>
+    	     <tr>
+                <td></td>
+                <td style="text-align: left;">
+      		  <span id="togglecc" style=" position: relative; top: 0px;">Add Copy</span>
+      		  <span id="togglebcc" style=" position: relative; top: 0px;">Add Secret Copy</span>
+     	        </td>
+   	     </tr>
+   	     <tr>
+     	        <td class="label">Subject:</td>
+     	        <td class="subject">
+      		   <input id="subject" name="subject" type="text" style="color: black;font-size: 90%;" ng-model="subject">     
+		</td>
+   	     </tr>
+	     <tr class="atcrow">
+     		<td class="label" style="position: relative; top: 4px;">
+      		  <span class="iconImg attachmentImg"></span>:
+     		</td>
+     		<td>
+      			<div id="atcdrop" style="display:none">
+       				Drop file(s) here to attach.      
+			</div>
+      			<div id="atcdiv">
+       				<span id="upload_limit" style="display:none">Over add limit.</span>
+       				<span id="upload_wait" style="display:none"></span>
+       				<span>
+        				<label id="compose_upload_add" for="upload">Add File</label>
+        				<input id="upload" multiple="" name="file_upload[]" type="file">     
+				</span>
+       				<ul id="attach_list" style="display:none"></ul>
+      			</div>
+     		</td>
+            </tr>
+   	   </tbody>
+         </table> 
+       </div>
+       <div id="composeMessageParent">
+   	   <textarea name="message" id="composeMessage" class="fixed" style="height: 437px;" ng-model="mail"></textarea>
+	   
+       </div>
+     </div>
+</div>
