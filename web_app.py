@@ -67,6 +67,18 @@ def handle_mail():
 	db.userData.update_one({"email":to},{'$push' : { 'Inbox': {'from':from_email, 'subject':subject, 'mail':mail }}})
 	return jsonify(status='OK', message='Mail is sent successfully.')
 
+
+@app.route("/fetch_outbox",methods=['POST'])
+def fetch_outbox():
+	result = request.get_json()
+	username = result['user']
+
+	outbox = db.userData.find_one ({"username":username},{"Outbox":"1","_id":0})
+	
+	return jsonify(outbox)
+		
+
+
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 8156))
+    port = int(os.environ.get('PORT', 8135))
     app.run(host='0.0.0.0', port=port)

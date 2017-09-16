@@ -236,6 +236,8 @@ article .article-info a {
     margin: 0;
     padding: 8px 0 0 0;
     background-position: right top;
+    position: relative;
+    left: -1em;
 }
 .horde-buttonbar li {
     float: left;
@@ -535,6 +537,168 @@ span.attachmentImg {
     width: 100%;
     color: black;
     font-family: monospace;
+}
+
+
+/**** Inbox and Outbox Styles ****/
+#msglistHeaderHoriz {
+    border-bottom: 0;
+    position: relative;
+    width: 1098px;
+}
+
+
+
+
+div.vpRowHoriz div.sep {
+    padding-left: 5px;
+}
+
+div.vpRow div.iconImg {
+    position: relative;
+    margin-top: -3px;
+    width: 30px;
+}
+
+div.vpRow div {
+    overflow: hidden;
+    padding-top: 4px;
+    position: absolute;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    white-space: nowrap;
+}
+div.vpRow {
+    border-bottom: 1px solid #d0d0d0;
+    cursor: pointer;
+    height: 21px;
+    overflow: hidden;
+}
+
+div.vpRow .msCheck:hover {
+    background-image: url(../img/checkbox_over.png) !important;
+}
+
+div.vpRowSelected {
+    background-color: #36525d !important;
+    color: #fff;
+}
+
+div.msgStatus .msCheck {
+    margin-right: 1px;
+}
+
+.msCheck {
+    background-image: url(../img/checkbox_off.png);
+}
+
+.msCheckOn, div.vpRowSelected .msCheck {
+    background-image: url(../img/checkbox_on.png);
+}
+
+div.msgStatus {
+    font-size: 0;
+    margin-top: 1px;
+    padding-left: 8px;
+    width: 30px;
+}
+
+div.msgFrom {
+    left: 120px;
+    width: 280px;
+    text-align: left;
+}
+
+div.msgSubject {
+    left: 510px;
+    height: 25px;
+    width: 200px;
+    right: 225px;
+    bottom: 25px;
+}
+
+div.msgDate {
+    right: 0em;
+    height: 25px;
+    width: 160px;
+}
+.horde-table-header .horde-split-left {
+    width: 2px;
+    height: 22px;
+    margin: 0 5px 0 5.5px;
+    top: 0;
+}
+.horde-table-header .horde-split-left, table.horde-table thead .horde-split-left, .horde-table-header .horde-split-right, table.horde-table thead .horde-split-right {
+    background-image: url(../img/tablehead-split.png);
+    background-repeat: no-repeat;
+}
+
+
+.horde-table-header .iconImg {
+    vertical-align: middle;
+}
+.horde-table-header, table.horde-table thead tr, table.horde-table th {
+    background-image: url(../img/tablehead-bg.png);
+    background-repeat: repeat-x;
+}
+
+
+.vpScroll {
+    background-color: #ffffff;
+    border-left: 1px solid #d0d0d0;
+    width: 15px;
+}
+.vpScrollDown {
+    background-image: url(../img/sbcursor_bottom.png);
+    border-bottom: 1px solid #d0d0d0;
+}
+.vpScrollUp {
+    background-image: url(../img/sbcursor_top.png);
+}
+.vpScrollDown, .vpScrollUp {
+    height: 16px;
+    width: 13px;
+    cursor: pointer;
+}
+.vpScrollCursor {
+    background-color: #cecece;
+}
+
+
+.mailHeaders {
+    color: black;
+    float: left;
+    font-family: Arial,"DejaVu Sans",sans-serif;
+    position:relative;
+    left: 10px;
+    bottom: 2px;
+
+}
+.horde-splitbar-horiz {
+    height: 8px;
+    background-image: url(../img/slidehoriz-bg.png);
+    background-repeat: repeat-x;
+    cursor: row-resize;
+    position: relative;
+    top: -9.7px;
+}
+.horde-splitbar-horiz-handle {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 8px;
+    background-image: url(../img/slidehoriz.png);
+    background-repeat: no-repeat;
+    background-position: center center;
+}
+.viewEmail {
+    text-align: left;
+    padding-left: 16px;
+    color: black;
+    border-radius: 5px;
+    border: 1px solid rgba(49, 112, 143, 0.85);
+    height: 300px;
+
 }
 /***** Top content *****/
 

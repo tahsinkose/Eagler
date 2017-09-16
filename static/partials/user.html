@@ -6,12 +6,12 @@
         <ul>
           <div class="horde-new">
             <span class="horde-new-link">
-		<a id="composelink" class="icon" ng-click="newmail()">New Mail</a>
+		<a id="composelink" class="icon" ng-click="setView('newMail')">New Mail</a>
 	    </span>
           </div>
-          <li><a href="inbox.html">Inbox</a></li>
-          <li><a href="outbox.html">Outbox</a></li>
-	  <li><a href="folder.html">Folder Actions</a></li>
+          <li><a ng-click="setView('inbox')">Inbox</a></li>
+          <li><a ng-click="setView('outbox')">Outbox</a></li>
+	  <li><a ng-click="setView('folderActions')">Folder Actions</a></li>
         </ul>
       </nav>
       <div id="horde-slideleft" class="horde-splitbar-vert" style="left: 200px; height: 560px;">
@@ -34,7 +34,7 @@
       </ul>
      </div>
 
-     <div ng-show="openNewmail" ng-include="'static/partials/mail.html'"></div>
+     <div ng-include="getView()"></div>
    </div>
   </section>
 </div>

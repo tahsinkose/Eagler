@@ -1,0 +1,40 @@
+<div style="float: none; width: auto; position: relative; top: -10px;">
+ <div id="msglistHeaderContainer">
+    <div class="vpRowHoriz vpRow horde-table-header" id="msglistHeaderHoriz" style="">
+      <div class="msgStatus">
+        <div ng-class="applySelection()" id="horiz_opts" title="All" ng-click="changeSelection()" class="iconImg msCheckAll msCheck"></div>
+      </div>
+      <div class="msgFrom sep"><a class="mailHeaders">To</a>
+        <div class="horde-split-left" style="position: relative;left: -17px;top: -4px;"></div>
+      </div>
+      <div class="msgSubject sep" style="position: relative;top: 1px;"><a class="mailHeaders" style="font-weight:bold">Subject</a>
+        <div class="horde-split-left" style="position: relative; left: -60px; top: -5px;"></div>
+      </div>
+      <div class="msgDate sep" style="position:relative;left:938px;top:-25px;"><a class="mailHeaders">Date</a>
+        <div class="horde-split-left"></div>
+        <span class="horde-popdown" style="
+    		position: relative;
+    		left: -5.3em;
+    		bottom: 4px;
+	"></span>
+      </div>
+    </div>
+    <div class="horde-table-header" id="msglistHeaderVert" style="display:none">
+      <div class="iconImg msgStatus">
+         <div class="iconImg msCheckAll msCheck" title="All"></div>
+      </div>
+    </div>
+  </div>
+  <div class="msglist" style="width: auto;">
+    <div class="vpRowHoriz flagPersonal vpRow DragElt" ng-repeat="email in outbox_emails" ng-click="showMail(email)">
+     <div class="msgStatus">
+       <div class="iconImg msCheck"></div>
+     </div>
+     <div class="msgFrom sep" style="position: relative;left: 120px;" title="{{email.to}}">{{email.to}}</div>
+     <div class="msgSubject sep" title="{{email.subject}}" style="position: relative; text-align:left">{{email.subject}}</div>
+     <div class="msgDate sep" style="left: 910px;bottom: {{email.pad_date}}px;">06-06-2017</div>
+    </div>
+  </div>
+</div>
+<div class="horde-splitbar-horiz DragElt" id="anonymous_element_2" style=""><div class="horde-splitbar-horiz-handle"></div></div>
+<div ng-show="viewEmail" class="viewEmail">{{viewEmail}}</div>
