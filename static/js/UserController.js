@@ -13,6 +13,7 @@
 	$scope.outbox_emails = null;
 	
 	var outboxFetched = false;
+	var inboxFetched = false;
 	
 	$scope.viewEmail = null;
 	var fetch_outbox = function(){
@@ -40,6 +41,32 @@
 			});		
 
 	};
+
+
+	var fetch_inbox = function(){
+		var data = {
+			    user: $routeParams.username,
+		};
+		var config = {
+			    headers : {
+				"Content-Type": "application/json; charset = utf-8;"
+			    }
+		}
+		$http.post("/fetch_inbox",JSON.stringify(data), config)
+			.then(function(data) {
+				$scope.inbox_emails = [];
+				for(var key in data.data.Inbox){
+					$scope.inbox_emails.push(data.data.Inbox[key])
+				}
+				var length = $scope.inbox_emails.length;
+				for(i=length-1;i>=0;i--){
+					$scope.inbox_emails[i].pad_date = (i*20) - 2;
+				}
+			}, function(data){
+				console.log("error :" + data);
+			});		
+
+	};
 	var selection = "iconImg msCheckAll msCheck";
 
 	
@@ -55,16 +82,28 @@
 
 	$scope.getView = function(){
 		if(whichView === "newMail"){
+			/*---Since the view has changed, we should assign them as false ---*/
 			outboxFetched = false;
+			inboxFetched = false;
+			/*---So that, the execution can further check the boxes whether there is new data in it or not---*/
+			/*---This method designated to prevent infinite looping when fetching boxes take roll during the view update.---*/
 			return "static/partials/mail.html";
 		}
 		else if(whichView === "inbox"){
+			if(inboxFetched === false){
+				fetch_inbox();
+				inboxFetched = true;
+				outboxFetched = false;
+				$scope.viewEmail = null;
+			}
 			return "static/partials/inbox.html";
 		}
 		else if(whichView === "outbox"){
 			if(outboxFetched === false){
 				fetch_outbox();
 				outboxFetched = true;
+				inboxFetched = false;
+				$scope.viewEmail = null;
 			}
 			return "static/partials/outbox.html";
 		}	

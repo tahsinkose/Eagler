@@ -76,9 +76,21 @@ def fetch_outbox():
 	outbox = db.userData.find_one ({"username":username},{"Outbox":"1","_id":0})
 	
 	return jsonify(outbox)
+
+
+@app.route("/fetch_inbox",methods=['POST'])
+def fetch_inbox():
+	result = request.get_json()
+	username = result['user']
+
+	inbox = db.userData.find_one ({"username":username},{"Inbox":"1","_id":0})
+	
+	return jsonify(inbox)
+		
+
 		
 
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 8135))
+    port = int(os.environ.get('PORT', 8080))
     app.run(host='0.0.0.0', port=port)
