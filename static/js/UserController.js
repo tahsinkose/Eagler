@@ -1,14 +1,52 @@
 // This is an Immediately Invoked Function Expression to avoid global variable usage.
 (function() {
   // Below block expression created a module and a controller attached to it.
+  var config = {
+			    headers : {
+				"Content-Type": "application/json; charset = utf-8;"
+			    }
+	}
   var app = angular.module("emailProvider");
     function UserController($http,$scope,$routeParams,$location) {
+	//IIFE to check whether user exists. It is devised to prevent malicious attacks.
+	(function(){
+		var data = {
+			    user: $routeParams.username,
+		};
+		$http.post("/doesExist",JSON.stringify(data), config)
+			.then(function(data) {
+				if(data.data.status === '404'){
+					$location.path('/404');
+				}
+				else{
+					//IIFE to check whether user did login legally.
+					(function(){
+						var data = {
+							user: $routeParams.username,
+						};
+						$http.post("/validLogin",JSON.stringify(data),config)
+							.then(function(data) {
+								if(data.data.status === '405'){
+									$location.path('/405');
+								}
+							}, function(data){
+								
+							});
+
+					})();
+				}
+			},function(data){
+				
+			});
+		
+	})();
+	
+	
+	
 	$scope.to=null;
 	$scope.subject=null;
 	$scope.mail=null;
-	//Check for valid logon.
 	
-	//This would automatically fetch the inbox mails.
 	$scope.inbox_emails = null;
 	$scope.outbox_emails = null;
 	
@@ -20,11 +58,6 @@
 		var data = {
 			    user: $routeParams.username,
 		};
-		var config = {
-			    headers : {
-				"Content-Type": "application/json; charset = utf-8;"
-			    }
-		}
 		$http.post("/fetch_outbox",JSON.stringify(data), config)
 			.then(function(data) {
 				$scope.outbox_emails = [];
@@ -47,11 +80,7 @@
 		var data = {
 			    user: $routeParams.username,
 		};
-		var config = {
-			    headers : {
-				"Content-Type": "application/json; charset = utf-8;"
-			    }
-		}
+		
 		$http.post("/fetch_inbox",JSON.stringify(data), config)
 			.then(function(data) {
 				$scope.inbox_emails = [];
@@ -73,6 +102,13 @@
 	var whichView = null;
 
 	$scope.logout = function(){
+		var data = {
+			    user: $routeParams.username,
+		};
+		$http.post("/logout",JSON.stringify(data), config)
+			.then(function(data){
+			}, function(data) {
+			});
 		$location.path("/");
 	};
 	
@@ -116,14 +152,9 @@
 			    subject: subject,
 			    mail: mail	
 		};
-		var config = {
-			    headers : {
-				"Content-Type": "application/json; charset = utf-8;"
-			    }
-		}
 		$http.post("/send_mail",JSON.stringify(data), config)
 			.then(function(data) {
-				console.log(data.data.status);
+				
 			}, function(data){
 				console.log("error :" + data);
 			});		
