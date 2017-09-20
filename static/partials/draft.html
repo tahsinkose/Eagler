@@ -26,7 +26,7 @@
     </div>
   </div>
   <div class="msglist" style="width: auto;">
-    <div class="vpRowHoriz flagPersonal vpRow DragElt" ng-repeat="email in outbox_emails" ng-click="showMail(email)">
+    <div class="vpRowHoriz flagPersonal vpRow DragElt" ng-repeat="email in draft_emails" ng-click="showMail(email)">
      <div class="msgStatus">
        <div ng-init="startClass($index)" ng-class="showClass($index)" ng-click="changeSelection($index)"></div>
      </div>

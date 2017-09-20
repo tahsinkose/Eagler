@@ -11,7 +11,7 @@
           </div>
           <li><a ng-click="setView('inbox')">Inbox</a></li>
           <li><a ng-click="setView('outbox')">Outbox</a></li>
-	  <li><a ng-click="setView('folderActions')">Folder Actions</a></li>
+	  <li><a ng-click="setView('draft')">Drafts</a></li>
         </ul>
       </nav>
       <div id="horde-slideleft" class="horde-splitbar-vert" style="left: 200px; height: 560px;">
@@ -30,7 +30,11 @@
        </ul>
        <ul>
          <li class="horde-icon">
-           <span class="dimpactionRefresh"></span><a id="checkmaillink" title="Refresh">Refresh</a></li>
+           <span class="dimpactionRefresh"></span><a id="checkmaillink" title="Refresh">Refresh</a>
+	 </li>
+	 <li class="horde-icon" ng-show="anyCheckedMail()" ng-click="delete()">
+	   <span class="dimpactionDelete"></span><a id="deleteMail" title="Delete" style="position: relative;left: 			5px;">Delete</a>
+	 </li>
       </ul>
      </div>
 

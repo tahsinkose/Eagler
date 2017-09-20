@@ -2,7 +2,7 @@
  <div id="msglistHeaderContainer">
     <div class="vpRowHoriz vpRow horde-table-header" id="msglistHeaderHoriz" style="">
       <div class="msgStatus">
-        <div ng-class="applySelection()" id="horiz_opts" title="All" ng-click="changeSelection()" class="iconImg msCheckAll msCheck"></div>
+        <div ng-class="applySelectiontoAll()" id="horiz_opts" title="All" ng-click="changeSelectionAll()"></div>
       </div>
       <div class="msgFrom sep"><a class="mailHeaders">From</a>
         <div class="horde-split-left" style="position: relative;left: -36.5px;top: -4px;"></div>
@@ -28,11 +28,11 @@
   <div class="msglist" style="width: auto;">
     <div class="vpRowHoriz flagPersonal vpRow DragElt" ng-repeat="email in inbox_emails" ng-click="showMail(email)">
      <div class="msgStatus">
-       <div class="iconImg msCheck"></div>
+       <div ng-init="startClass($index)" ng-class="showClass($index)" ng-click="changeSelection($index)"></div>
      </div>
      <div class="msgFrom sep" style="position: relative;left: 120px;" title="{{email.from}}">{{email.from}}</div>
      <div class="msgSubject sep" title="{{email.subject}}" style="position: relative; text-align:left">{{email.subject}}</div>
-     <div class="msgDate sep" style="left: 910px;bottom: {{email.pad_date}}px;">06-06-2017</div>
+     <div class="msgDate sep" style="left: 910px;bottom: {{email.pad_date}}px;">{{email.date}}</div>
     </div>
   </div>
 </div>

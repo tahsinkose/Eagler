@@ -1,7 +1,11 @@
 import os
-from flask import Flask,send_file,jsonify,request,render_template
+from flask import Flask,send_file,jsonify,request,render_template,redirect,url_for
 import pymongo
 import hashlib,base64
+import datetime
+from threading import Lock
+
+mutex = Lock()
 
 client = pymongo.MongoClient('localhost:27017')
 db = client.angular_flask_db
@@ -10,7 +14,9 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    return send_file("templates/index.html")
+	return send_file("templates/index.html") 
+
+
 
 @app.route("/signUp",methods=['POST'])
 def signup():
@@ -31,7 +37,7 @@ def signup():
 	except pymongo.errors.DuplicateKeyError:
 		return jsonify(status='ERROR',message="duplicate")
 
-
+"""Login method. Checks the hash and salt created at registration. If both matches, then login would be successful."""
 @app.route("/login",methods=['POST'])
 def login():
 	result = request.get_json()
@@ -51,6 +57,7 @@ def login():
 	else:
 		return jsonify(status='WRONG',message='Password incorrect')
 
+"""Logout method. Clears the stored IPs at exit."""
 @app.route("/logout",methods=['POST'])
 def logout():
 	result = request.get_json()
@@ -58,7 +65,7 @@ def logout():
 	db.userData.update_one({"username":username},{'$unset' : {'currentIP':""}})
 	return jsonify(status='OK')
 
-
+# Check whether the user exists in case of direct link access.
 @app.route("/doesExist",methods=['POST'])
 def check_user():
 	result = request.get_json()
@@ -68,7 +75,7 @@ def check_user():
 		return jsonify(status='404', message='Does not exists')
 	return jsonify(status='OK', message='User exists')
 
-
+# Check whether the user logged in legally (again in case of direct link access.)
 @app.route("/validLogin",methods=['POST'])
 def valid_login():
 	try:
@@ -79,6 +86,8 @@ def valid_login():
 		return jsonify(status='OK', message='Legal routing')	
 	except:
 		return jsonify(status='405', message='Illegal routing')
+
+"""Sends mail. This is the most loaded operation in the application, since it requires 2 searches and 2 updates for the receiver and sender. """ 
 
 @app.route("/send_mail",methods=['POST'])
 def handle_mail():
@@ -93,11 +102,42 @@ def handle_mail():
 		return jsonify(status='NOT_EXISTS', message='Email is not registered')
 	subject = result['subject']
 	mail = result['mail']
-	db.userData.update_one({"email":from_email},{'$push' : { 'Outbox': {'to':to, 'subject':subject, 'mail':mail }}})
-	db.userData.update_one({"email":to},{'$push' : { 'Inbox': {'from':from_email, 'subject':subject, 'mail':mail }}})
+	date = str(datetime.date.today())
+	db.userData.update_one({"email":from_email},{'$push' : { 'Outbox': {'to':to, 'subject':subject, 'mail':mail, 'date':date }}})
+	db.userData.update_one({"email":to},{'$push' : { 'Inbox': {'from':from_email, 'subject':subject, 'mail':mail,'date':date }}})
 	return jsonify(status='OK', message='Mail is sent successfully.')
 
 
+@app.route("/save_draft",methods=['POST'])
+def save_draft():
+	result = request.get_json()
+	from_username = result['from']
+	to = result['to']
+	subject = result['subject']
+	mail = result['mail']
+	date = str(datetime.date.today())
+	db.userData.update_one({"username":from_username},{'$push' : { 'Drafts': {'to':to, 'subject':subject, 'mail':mail,'date': date}}})
+	return jsonify(status='OK') 
+
+
+@app.route("/delete",methods=['POST'])
+def delete():
+	result = request.get_json()
+	from_username = result['from']
+	index = result['index']
+	box = result['folder']
+	folder = box[:1].upper() + box[1:]
+	if folder == "Draft":
+		folder = "Drafts"
+	mutex.acquire()
+	db.userData.update_one({"username":from_username},{'$unset' : { folder+'.'+str(index): "1"}})
+	db.userData.update_one({"username":from_username},{'$pull' : { folder : None}})
+	mutex.release()
+	return jsonify(status='OK')	
+	
+
+# Fetcher routines. Self explanatory from their corresponding names.
+"""Fetches outbox."""
 @app.route("/fetch_outbox",methods=['POST'])
 def fetch_outbox():
 	result = request.get_json()
@@ -107,7 +147,7 @@ def fetch_outbox():
 	
 	return jsonify(outbox)
 
-
+"""Fetches inbox."""
 @app.route("/fetch_inbox",methods=['POST'])
 def fetch_inbox():
 	result = request.get_json()
@@ -117,10 +157,18 @@ def fetch_inbox():
 	
 	return jsonify(inbox)
 		
+"""Fetches draft."""
+@app.route("/fetch_draft",methods=['POST'])
+def fetch_draft():
+	result = request.get_json()
+	username = result['user']
 
-		
+	draft = db.userData.find_one ({"username":username},{"Drafts":"1","_id":0})
+	
+	return jsonify(draft)
+
 
 
 if __name__ == '__main__':
-    port = int(os.environ.get('PORT', 8141))
+    port = int(os.environ.get('PORT', 8085))
     app.run(host='0.0.0.0', port=port)

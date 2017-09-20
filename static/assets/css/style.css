@@ -251,14 +251,18 @@ article .article-info a {
     list-style: none;
 }
 
-
+.dimpactionForward {
+    background-image: url(../img/forward.png);
+}
 .dimpactionRefresh {
     background-image: url(../img/reload.png);
     float:left;
 }
 
-.dimpactionForward {
-    background-image: url(../img/forward.png);
+.dimpactionDelete{
+    background-image: url(../img/delete.png);
+    position: relative;
+    left: 15px;
 }
 
 .dimpactionDrafts, .dimpactionTemplates {
