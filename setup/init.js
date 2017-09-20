@@ -1,0 +1,10 @@
+db.userData.createIndex({name: 1},{unique:false,name:"name"});
+db.userData.createIndex({surname: 1},{unique:false,name:"surname"});
+db.userData.createIndex({username: 1},{unique:true,name:"username"});
+db.userData.createIndex({email: 1},{unique:true,name:"email"});
+db.userData.createIndex({hash: 1},{unique:false,name:"hash"});
+db.userData.createIndex({salt: 1},{unique:false,name:"salt"});
+db.userData.createIndex({from: 1,subject:1, mail: 1},{unique:false,name:"Inbox"});
+db.userData.createIndex({to: 1,subject:1, mail: 1},{unique:false,name:"Outbox"});
+db.userData.createIndex({to: 1,subject:1, mail: 1},{unique:false,name:"Drafts"});
+db.userData.createIndex({currentIP: 1},{unique:false,name:"currentIP"});
