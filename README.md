@@ -66,7 +66,23 @@ To replicate the execution, one need to setup Mongo database, collection and ind
            },		
            name: "Outbox",		
            unique: false		
-       },		
+       },
+       {		
+           key: {		
+             to: 1,		
+             subject: 1,		
+             mail: 1		
+           },		
+           name: "Drafts",		
+           unique: false		
+       },
+       {
+           key: {
+             currentIP: 1,
+           },
+           name: "currentIP",
+           unique: false
+       }
     ]		
  })		
  ```		
