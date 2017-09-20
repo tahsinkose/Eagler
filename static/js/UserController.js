@@ -274,15 +274,16 @@
 
     $scope.delete = function() {
 	//Need to check which mails are "checked On".
-
+	var reduceBy = 0;
 	for(var i=0;i<emailCount;i++){
 		var classVar = parser(i);
 		if($scope.$eval(classVar) === "iconImg msCheckOn"){
 			var data = {
 				from: $routeParams.username,
-				index: i,
+				index: i - reduceBy,
 				folder: whichView
 			};
+			reduceBy += 1;
 			$http.post("/delete",JSON.stringify(data),config)
 			   .then(function(data) {
 				if(whichView === "inbox"){
